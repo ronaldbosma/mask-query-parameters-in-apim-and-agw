@@ -56,11 +56,11 @@ Follow these steps to test the sample application using Visual Studio Code:
 
 1. Install the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension in Visual Studio Code. 
 1. The API is protected and needs to be called with a subscription key. Locate the `Built-in all-access` subscription in API Management and copy the primary key.
-1. Add an environment to your Visual Studio Code user settings with the API Management hostname and subscription key. Use the following example and replace the values with your own:
+1. Add an environment to your Visual Studio Code user settings with the Application Gateway public IP address and API Management subscription key. Use the following example and replace the values with your own:
    ```
    "rest-client.environmentVariables": {
        "maskqueryparam": {
-           "agwHostname": "apim-maskqueryparams-sdc-lblpp.azure-api.net",
+           "agwIPAddress": "123.456.78.90",
            "apimSubscriptionKey": "1234567890abcdefghijklmnopqrstuv"
        }
    }

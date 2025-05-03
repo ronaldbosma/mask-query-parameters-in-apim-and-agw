@@ -1,1 +1,1 @@
-GET https://{{agwHostname}}/echo?subscription-key={{apimSubscriptionKey}}&foo=bar
+GET http://{{agwIPAddress}}/echo?subscription-key={{apimSubscriptionKey}}&foo=bar
