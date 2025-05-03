@@ -4,8 +4,10 @@ name: mask-query-parameters-in-apim-and-agw
 metadata:
   template: mask-query-parameters-in-apim-and-agw@0.0.0
 hooks:
-  postdown: # Permanently delete the Log Analytics workspace to prevent issues with the next deployment
+  predown:
+    # Permanently delete the Log Analytics workspace to prevent issues with the next deployment
+    # The predown hook is used because permanent deletion of the workspace doesn't work if it's already in the soft-deleted state after azd has removed it
     shell: pwsh
-    run: az monitor log-analytics workspace delete --subscription ${AZURE_SUBSCRIPTION_ID} --resource-group ${AZURE_RESOURCE_GROUP} --workspace-name ${AZURE_LOG_ANALYTICS_WORKSPACE_NAME} --force --yes
+    run: az monitor log-analytics workspace delete --subscription $env:AZURE_SUBSCRIPTION_ID --resource-group $env:AZURE_RESOURCE_GROUP --workspace-name $env:AZURE_LOG_ANALYTICS_WORKSPACE_NAME --force --yes
 requiredVersions: 
   azd: ">= 1.12.0"  # azd version 1.12.0 or later is required because of the use of the Bicep deployer() function
