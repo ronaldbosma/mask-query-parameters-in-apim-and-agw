@@ -2,6 +2,7 @@
     <inbound>
         <base />
 
+        <!-- Return all received query parameters -->
         <return-response>
             <set-status code="200" />
             <set-body>@(context.Request.Url.QueryString)</set-body>
