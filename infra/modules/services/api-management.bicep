@@ -101,5 +101,29 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
     alwaysLog: 'allErrors'
     loggerId: apimAppInsightsLogger.id
     httpCorrelationProtocol: 'W3C' // Enable logging to app insights in W3C format
+    frontend: {
+      request: {
+        dataMasking: {
+          queryParams: [
+            {
+              value: 'subscription-key'
+              mode: 'Mask'
+            }
+          ]
+        }
+      }
+    }
+    backend: {
+      request: {
+        dataMasking: {
+          queryParams: [
+            {
+              value: 'subscription-key'
+              mode: 'Mask'
+            }
+          ]
+        }
+      }
+    }
   }
 }
