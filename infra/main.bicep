@@ -58,9 +58,9 @@ var applicationGatewaySettings = {
 
 var virtualNetworkSettings = {
   virtualNetworkName: getResourceName('virtualNetwork', environmentName, location, instanceId)
-  applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, instanceId)
-  apiManagementSubnetName: getResourceName('subnet', environmentName, location, instanceId)
-  apiManagementNSGName: getResourceName('networkSecurityGroup', environmentName, location, instanceId)
+  applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, 'agw-${instanceId}')
+  apiManagementSubnetName: getResourceName('subnet', environmentName, location, 'apim-${instanceId}')
+  apiManagementNSGName: getResourceName('networkSecurityGroup', environmentName, location, 'apim-${instanceId}')
 }
 
 var tags = {
