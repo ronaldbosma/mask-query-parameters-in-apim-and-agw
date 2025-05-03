@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: mask-query-parameters-in-apim-and-agw
+metadata:
+  template: mask-query-parameters-in-apim-and-agw@0.0.0
+hooks:
+  postdown: # Permanently delete the Log Analytics workspace to prevent issues with the next deployment
+      run: az monitor log-analytics workspace delete --subscription ${AZURE_SUBSCRIPTION_ID} --resource-group ${AZURE_RESOURCE_GROUP} --workspace-name ${AZURE_LOG_ANALYTICS_WORKSPACE_NAME} --force --yes
+requiredVersions: 
+  azd: ">= 1.12.0"  # azd version 1.12.0 or later is required because of the use of the Bicep deployer() function

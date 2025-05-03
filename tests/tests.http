@@ -1,0 +1,1 @@
+GET https://{{agwHostname}}/echo?subscription-key={{apimSubscriptionKey}}&foo=bar
