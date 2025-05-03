@@ -1,6 +1,6 @@
 # Mask query parameters in Azure API Management and Application Gateway
 
-> [!INFORMATION]  
+> [!IMPORTANT]  
 > This template is under construction and not yet fully functional.
 
 
