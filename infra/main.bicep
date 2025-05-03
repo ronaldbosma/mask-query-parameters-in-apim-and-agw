@@ -105,6 +105,7 @@ module apiManagement 'modules/services/api-management.bicep' = {
     tags: tags
     apiManagementSettings: apiManagementSettings
     appInsightsName: appInsightsSettings.appInsightsName
+    subnetId: virtualNetwork.outputs.apimSubnetId
   }
   dependsOn: [
     appInsights
