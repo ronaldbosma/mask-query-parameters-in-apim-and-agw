@@ -28,3 +28,22 @@ type appInsightsSettingsType = {
   @description('Retention in days of the logging')
   retentionInDays: int
 }
+
+
+// Virtual Network
+
+@description('The settings for the virtual network')
+@export()
+type virtualNetworkSettingsType = {
+  @description('The name of the virtual network')
+  virtualNetworkName: string
+
+  @description('The name of the Application Gateway subnet')
+  applicationGatewaySubnetName: string
+
+  @description('The name of the API Management subnet')
+  apiManagementSubnetName: string
+
+  @description('The name of the API Management network security group')
+  apiManagementNSGName: string
+}

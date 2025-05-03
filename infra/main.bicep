@@ -51,6 +51,13 @@ var appInsightsSettings = {
   retentionInDays: 30
 }
 
+var virtualNetworkSettings = {
+  virtualNetworkName: getResourceName('virtualNetwork', environmentName, location, instanceId)
+  applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, instanceId)
+  apiManagementSubnetName: getResourceName('subnet', environmentName, location, instanceId)
+  apiManagementNSGName: getResourceName('networkSecurityGroup', environmentName, location, instanceId)
+}
+
 var tags = {
   'azd-env-name': environmentName
   'azd-template': 'ronaldbosma/mask-query-parameters-in-apim-and-agw'
@@ -73,6 +80,15 @@ module appInsights 'modules/services/app-insights.bicep' = {
     location: location
     tags: tags
     appInsightsSettings: appInsightsSettings
+  }
+}
+
+module virtualNetwork 'modules/services/virtual-network.bicep' = {
+  name: 'virtualNetwork'
+  scope: resourceGroup
+  params: {
+    virtualNetworkSettings: virtualNetworkSettings
+    location: location
   }
 }
 
