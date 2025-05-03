@@ -30,6 +30,19 @@ type appInsightsSettingsType = {
 }
 
 
+// Application Gateway
+
+@description('The settings for the Application Gateway')
+@export()
+type applicationGatewaySettingsType = {
+  @description('The name of the Application Gateway')
+  applicationGatewayName: string
+  
+  @description('The name of the public IP address for the Application Gateway')
+  publicIpAddressName: string
+}
+
+
 // Virtual Network
 
 @description('The settings for the virtual network')

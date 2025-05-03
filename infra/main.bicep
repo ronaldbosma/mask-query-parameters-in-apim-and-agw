@@ -51,6 +51,11 @@ var appInsightsSettings = {
   retentionInDays: 30
 }
 
+var applicationGatewaySettings = {
+  applicationGatewayName: getResourceName('applicationGateway', environmentName, location, instanceId)
+  publicIpAddressName: getResourceName('publicIpAddress', environmentName, location, instanceId)
+}
+
 var virtualNetworkSettings = {
   virtualNetworkName: getResourceName('virtualNetwork', environmentName, location, instanceId)
   applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, instanceId)
@@ -104,6 +109,18 @@ module apiManagement 'modules/services/api-management.bicep' = {
   dependsOn: [
     appInsights
   ]
+}
+
+module appGateway './modules/services/application-gateway.bicep' = {
+  name: 'appGateway'
+  scope: resourceGroup
+  params: {
+    applicationGatewaySettings: applicationGatewaySettings
+    location: location
+    subnetId: virtualNetwork.outputs.agwSubnetId
+    apiManagementServiceName: apiManagementSettings.serviceName
+    apiManagementIPAddress: apiManagement.outputs.apiManagementIPAddress
+  }
 }
 
 
