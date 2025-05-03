@@ -34,7 +34,7 @@ Once the prerequisites are installed on your machine, you can deploy this templa
 
 1. Run the `azd up` command to provision the resources in your Azure subscription. 
 
-   > [!IMPORTANT] 
+> [!IMPORTANT] 
    > API Management Premium V2 is used which is not supported in all regions. Choose one of the [supported regions](https://learn.microsoft.com/en-us/azure/api-management/api-management-region-availability).
 
     ```cmd
