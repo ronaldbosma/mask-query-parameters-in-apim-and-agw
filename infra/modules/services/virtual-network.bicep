@@ -101,7 +101,7 @@ resource apimNSG 'Microsoft.Network/networkSecurityGroups@2024-05-01' = {
         properties: {
           access: 'Allow'
           sourcePortRange: '*'
-          destinationPortRange: '1886,443'
+          destinationPortRange: '443'
           direction: 'Outbound'
           protocol: 'TCP'
           sourceAddressPrefix: 'VirtualNetwork'
