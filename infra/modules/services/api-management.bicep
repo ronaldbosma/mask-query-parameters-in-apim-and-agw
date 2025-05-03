@@ -24,9 +24,6 @@ param apiManagementSettings apiManagementSettingsType
 @description('The name of the App Insights instance that will be used by API Management')
 param appInsightsName string
 
-@description('The ID of the subnet to use for the API Management service')
-param subnetId string
-
 //=============================================================================
 // Variables
 //=============================================================================
@@ -54,16 +51,12 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2023-09-01-previe
   location: location
   tags: serviceTags
   sku: {
-    name: 'PremiumV2'
-    capacity: 1
+    name: 'Consumption'
+    capacity: 0
   }
   properties: {
     publisherName: apiManagementSettings.publisherName
     publisherEmail: apiManagementSettings.publisherEmail
-    virtualNetworkType: 'Internal'
-    virtualNetworkConfiguration: {
-      subnetResourceId: subnetId
-    }
   }
   identity: {
     type: 'SystemAssigned'
@@ -134,9 +127,3 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
     }
   }
 }
-
-//=============================================================================
-// Outputs
-//=============================================================================
-
-output apiManagementIPAddress string = apiManagementService.properties.privateIPAddresses[0]

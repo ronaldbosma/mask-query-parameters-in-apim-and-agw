@@ -53,10 +53,4 @@ type virtualNetworkSettingsType = {
 
   @description('The name of the Application Gateway subnet')
   applicationGatewaySubnetName: string
-
-  @description('The name of the API Management subnet')
-  apiManagementSubnetName: string
-
-  @description('The name of the API Management network security group')
-  apiManagementNSGName: string
 }

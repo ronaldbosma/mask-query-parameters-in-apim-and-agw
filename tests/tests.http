@@ -1,1 +1,9 @@
+# Call API directly on API Management
+GET https://{{apimHostname}}/echo?subscription-key={{apimSubscriptionKey}}&foo=bar
+
+
+###
+
+
+# Call API through Application Gateway
 GET http://{{agwIPAddress}}/echo?subscription-key={{apimSubscriptionKey}}&foo=bar

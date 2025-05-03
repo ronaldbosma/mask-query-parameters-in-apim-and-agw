@@ -7,6 +7,7 @@
 //=============================================================================
 
 import { applicationGatewaySettingsType } from '../../types/settings.bicep'
+import { getApiManagementFqdn } from '../../functions/helpers.bicep'
 
 //=============================================================================
 // Parameters
@@ -23,9 +24,6 @@ param subnetId string
 
 @description('The name of the API Management Service to use')
 param apiManagementServiceName string
-
-@description('The IP address of the API Management Service to use')
-param apiManagementIPAddress string
 
 //=============================================================================
 // Resources
@@ -121,7 +119,7 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' =
         properties: {
           backendAddresses: [
             {
-              ipAddress: apiManagementIPAddress
+              fqdn: getApiManagementFqdn(apiManagementServiceName)
             }
           ]
         }
@@ -135,7 +133,7 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' =
           pickHostNameFromBackendHttpSettings: true
           interval: 30
           timeout: 30
-          path: '/status-0123456789abcdef'
+          path: '/internal-status-0123456789abcdef'
           protocol: 'Https'
           unhealthyThreshold: 3
           match: {

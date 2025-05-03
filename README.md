@@ -38,8 +38,6 @@ Once the prerequisites are installed on your machine, you can deploy this templa
 
 1. Run the `azd up` command to provision the resources in your Azure subscription. 
 
-   **IMPORTANT: API Management Premium V2 is used which is not supported in all regions. Choose one of the [supported regions](https://learn.microsoft.com/en-us/azure/api-management/api-management-region-availability).**
-
     ```cmd
     azd up
     ```
@@ -56,17 +54,18 @@ Follow these steps to test the sample application using Visual Studio Code:
 
 1. Install the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension in Visual Studio Code. 
 1. The API is protected and needs to be called with a subscription key. Locate the `Built-in all-access` subscription in API Management and copy the primary key.
-1. Add an environment to your Visual Studio Code user settings with the Application Gateway public IP address and API Management subscription key. Use the following example and replace the values with your own:
+1. Add an environment to your Visual Studio Code user settings with the Application Gateway public IP address, API Management hostname and subscription key. Use the following example and replace the values with your own:
    ```
    "rest-client.environmentVariables": {
        "maskqueryparam": {
            "agwIPAddress": "123.456.78.90",
+           "apimHostname": "apim-maskqueryparams-nwe-kt2tx.azure-api.net",
            "apimSubscriptionKey": "1234567890abcdefghijklmnopqrstuv"
        }
    }
    ```
 1. Open `tests.http` and at the bottom right of the editor, select the `maskqueryparam` environment you just configured.
-1. Click on `Send Request` above the first request. This will call the Echo API with the subscription key as a query parameter.
+1. Click on `Send Request` above the requests. This will call the Echo API with the subscription key as a query parameter.
 1. Open Application Insights in the Azure portal and select `Logs` in the left menu.
 1. Execute the following kusto query to retrieved logged API Management requests. 
    It might take a few minutes before the first requests are logged.
@@ -90,19 +89,6 @@ azd down --purge
 
 ## Troubleshooting
 
-### API Management deployment failed because region is not supported
-
-API Management Premium V2 is used which is not supported in all regions. 
-If you get the following error during deployment, it means that the region you selected is not supported for API Management Premium V2.
-Choose one of the [supported regions](https://learn.microsoft.com/en-us/azure/api-management/api-management-region-availability) and redeploy.
-
-```
-ERROR: error executing step command 'provision': deployment failed: error deploying infrastructure: deploying to subscription:
-
-Deployment Error Details:
-NotSupported: SKU PremiumV2 is not supported in the region Sweden Central
-```
-
 ### API Management deployment failed because the service already exists in soft-deleted state
 
 If you've previously deployed this template and deleted the resources, you may encounter the following error when redeploying the template. This error occurs because the API Management service is in a soft-deleted state and needs to be purged before you can create a new service with the same name.
@@ -110,12 +96,12 @@ If you've previously deployed this template and deleted the resources, you may e
 ```json
 {
     "code": "DeploymentFailed",
-    "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-maskqueryparams-sdc-lblpp/providers/Microsoft.Resources/deployments/apiManagement",
+    "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-maskqueryparams-nwe-kt2tx/providers/Microsoft.Resources/deployments/apiManagement",
     "message": "At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/arm-deployment-operations for usage details.",
     "details": [
         {
             "code": "ServiceAlreadyExistsInSoftDeletedState",
-            "message": "Api service apim-maskqueryparams-sdc-lblpp was soft-deleted. In order to create the new service with the same name, you have to either undelete the service or purge it. See https://aka.ms/apimsoftdelete."
+            "message": "Api service apim-maskqueryparams-nwe-kt2tx was soft-deleted. In order to create the new service with the same name, you have to either undelete the service or purge it. See https://aka.ms/apimsoftdelete."
         }
     ]
 }
@@ -124,5 +110,5 @@ If you've previously deployed this template and deleted the resources, you may e
 Use the [az apim deletedservice list](https://learn.microsoft.com/en-us/cli/azure/apim/deletedservice?view=azure-cli-latest#az-apim-deletedservice-list) Azure CLI command to list all deleted API Management services in your subscription. Locate the service that is in a soft-deleted state and purge it using the [purge](https://learn.microsoft.com/en-us/cli/azure/apim/deletedservice?view=azure-cli-latest#az-apim-deletedservice-purge) command. See the following example:
 
 ```cmd
-az apim deletedservice purge --location "norwayeast" --service-name "apim-maskqueryparams-sdc-lblpp"
+az apim deletedservice purge --location "norwayeast" --service-name "apim-maskqueryparams-nwe-kt2tx"
 ```

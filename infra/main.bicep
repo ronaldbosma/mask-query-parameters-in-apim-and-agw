@@ -59,8 +59,6 @@ var applicationGatewaySettings = {
 var virtualNetworkSettings = {
   virtualNetworkName: getResourceName('virtualNetwork', environmentName, location, instanceId)
   applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, 'agw-${instanceId}')
-  apiManagementSubnetName: getResourceName('subnet', environmentName, location, 'apim-${instanceId}')
-  apiManagementNSGName: getResourceName('networkSecurityGroup', environmentName, location, 'apim-${instanceId}')
 }
 
 var tags = {
@@ -105,7 +103,6 @@ module apiManagement 'modules/services/api-management.bicep' = {
     tags: tags
     apiManagementSettings: apiManagementSettings
     appInsightsName: appInsightsSettings.appInsightsName
-    subnetId: virtualNetwork.outputs.apimSubnetId
   }
   dependsOn: [
     appInsights
@@ -120,7 +117,6 @@ module appGateway './modules/services/application-gateway.bicep' = {
     location: location
     subnetId: virtualNetwork.outputs.agwSubnetId
     apiManagementServiceName: apiManagementSettings.serviceName
-    apiManagementIPAddress: apiManagement.outputs.apiManagementIPAddress
   }
 }
 
