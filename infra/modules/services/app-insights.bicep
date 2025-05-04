@@ -18,7 +18,7 @@ param location string
 @description('The tags to associate with the resource')
 param tags object
 
-@description('The settings for the App Insights instance that will be created')
+@description('The settings for App Insights')
 param appInsightsSettings appInsightsSettingsType
 
 //=============================================================================

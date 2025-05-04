@@ -102,7 +102,7 @@ module apiManagement 'modules/services/api-management.bicep' = {
     location: location
     tags: tags
     apiManagementSettings: apiManagementSettings
-    appInsightsName: appInsightsSettings.appInsightsName
+    appInsightsSettings: appInsightsSettings
   }
   dependsOn: [
     appInsights
@@ -117,6 +117,7 @@ module appGateway './modules/services/application-gateway.bicep' = {
     location: location
     subnetId: virtualNetwork.outputs.agwSubnetId
     apiManagementServiceName: apiManagementSettings.serviceName
+    appInsightsSettings: appInsightsSettings
   }
 }
 

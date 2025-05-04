@@ -6,7 +6,7 @@
 // Imports
 //=============================================================================
 
-import { applicationGatewaySettingsType } from '../../types/settings.bicep'
+import { applicationGatewaySettingsType, appInsightsSettingsType } from '../../types/settings.bicep'
 import { getApiManagementFqdn } from '../../functions/helpers.bicep'
 
 //=============================================================================
@@ -25,12 +25,23 @@ param subnetId string
 @description('The name of the API Management Service to use')
 param apiManagementServiceName string
 
+@description('The settings for App Insights')
+param appInsightsSettings appInsightsSettingsType
+
+//=============================================================================
+// Existing Resources
+//=============================================================================
+
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+  name: appInsightsSettings.logAnalyticsWorkspaceName
+}
+
 //=============================================================================
 // Resources
 //=============================================================================
 
-
 // Public IP address
+
 resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
   name: applicationGatewaySettings.publicIpAddressName
   location: location
@@ -46,6 +57,7 @@ resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
 
 
 // Application Gateway
+
 resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' = {
   name: applicationGatewaySettings.applicationGatewayName
   location: location
@@ -180,6 +192,23 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' =
             id: resourceId('Microsoft.Network/applicationGateways/backendHttpSettingsCollection', applicationGatewaySettings.applicationGatewayName, 'apim-gateway-backend-settings')
           }
         }
+      }
+    ]
+  }
+}
+
+
+// Diagnostic settings for Application Gateway
+
+resource applicationGatewayDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: '${applicationGatewaySettings.applicationGatewayName}-diagnostics'
+  scope: applicationGateway
+  properties: {
+    workspaceId: logAnalyticsWorkspace.id
+    logs: [
+      {
+        categoryGroup: 'AllLogs'
+        enabled: true
       }
     ]
   }

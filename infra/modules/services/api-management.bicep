@@ -6,7 +6,7 @@
 // Imports
 //=============================================================================
 
-import { apiManagementSettingsType } from '../../types/settings.bicep'
+import { apiManagementSettingsType, appInsightsSettingsType } from '../../types/settings.bicep'
 
 //=============================================================================
 // Parameters
@@ -21,8 +21,8 @@ param tags object
 @description('The settings for the API Management Service that will be created')
 param apiManagementSettings apiManagementSettingsType
 
-@description('The name of the App Insights instance that will be used by API Management')
-param appInsightsName string
+@description('The settings for App Insights')
+param appInsightsSettings appInsightsSettingsType
 
 //=============================================================================
 // Variables
@@ -37,7 +37,11 @@ var serviceTags = union(tags, {
 //=============================================================================
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
-  name: appInsightsName
+  name: appInsightsSettings.appInsightsName
+}
+
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+  name: appInsightsSettings.logAnalyticsWorkspaceName
 }
 
 //=============================================================================
@@ -81,7 +85,7 @@ resource appInsightsConnectionStringNamedValue 'Microsoft.ApiManagement/service/
 // - we need diagnostics settings that specify what to log to the logger
 
 resource apimAppInsightsLogger 'Microsoft.ApiManagement/service/loggers@2024-06-01-preview' = {
-  name: appInsightsName
+  name: appInsightsSettings.appInsightsName
   parent: apiManagementService
   properties: {
     loggerType: 'applicationInsights'
@@ -125,5 +129,27 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
         }
       }
     }
+  }
+}
+
+
+// Diagnostics settings for API Management
+// Thse can be deployed for a Conspumption tier, but don't actualy do anything for this tier
+
+resource apimDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: '${apiManagementSettings.serviceName}-diag'
+  scope: apiManagementService
+  properties: {
+    workspaceId: logAnalyticsWorkspace.id
+    logs: [
+      {
+        categoryGroup: 'AllLogs'
+        enabled: true
+      }
+      {
+        categoryGroup: 'Audit'
+        enabled: true
+      }
+    ]
   }
 }
