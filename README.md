@@ -66,17 +66,8 @@ Follow these steps to test the sample application using Visual Studio Code:
    ```
 1. Open `tests.http` and at the bottom right of the editor, select the `maskqueryparam` environment you just configured.
 1. Click on `Send Request` above the requests. This will call the Echo API with the subscription key as a query parameter.
-1. Open Application Insights in the Azure portal and select `Logs` in the left menu.
-1. Execute the following kusto query to retrieved logged API Management requests. 
-   It might take a few minutes before the first requests are logged.
-
-    ```kusto
-    requests
-    | where customDimensions["Service Type"] == "API Management"
-    | extend subscription = tostring(customDimensions["Subscription Name"])
-    | project timestamp, subscription, url
-    | sort by timestamp desc
-    ```
+1. Open the Log Analytics Workspace in the Azure portal and select `Logs` in the left menu.
+1. Execute the queries in [log-analytics-workspace.kql](demos/log-analytics-workspace.kql) to see the various logging.
 
 ### Clean up
 
