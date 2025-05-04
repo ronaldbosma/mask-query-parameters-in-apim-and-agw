@@ -13,7 +13,7 @@ param apiManagementServiceName string
 // Existing resources
 //=============================================================================
 
-resource apiManagementService 'Microsoft.ApiManagement/service@2023-09-01-preview' existing = {
+resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-preview' existing = {
   name: apiManagementServiceName
 }
 
@@ -23,7 +23,7 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2023-09-01-previe
 
 // Echo API
 
-resource echoApi 'Microsoft.ApiManagement/service/apis@2023-09-01-preview' = {
+resource echoApi 'Microsoft.ApiManagement/service/apis@2024-06-01-preview' = {
   name: 'echo-api'
   parent: apiManagementService
   properties: {
