@@ -1,0 +1,41 @@
+//=============================================================================
+// Azure Diagnostics
+//=============================================================================
+
+// Application Gateway diagnostic settings: The subscription key in the query string is logged
+AzureDiagnostics
+| where Category == 'ApplicationGatewayAccessLog'
+| where originalRequestUriWithArgs_s has 'subscription-key'
+| project TimeGenerated, originalRequestUriWithArgs_s
+
+
+// Nothing query param related in NSG logging
+AzureDiagnostics
+| where Category startswith "NetworkSecurityGroup"
+
+
+
+
+//=============================================================================
+// Resource specific logs (Dedicated)
+//=============================================================================
+
+
+// Application Gateway diagnostic settings: The subscription key in the query string is logged
+AGWAccessLogs 
+| where TimeGenerated > ago(7d)
+| where OriginalRequestUriWithArgs has 'subscription-key'
+| project TimeGenerated, OriginalRequestUriWithArgs
+
+
+// Found results
+AGWFirewallLogs 
+| where TimeGenerated > ago(7d)
+| where RequestUri has 'subscription-key'
+| project TimeGenerated, OperationName, RequestUri
+
+
+// API Management diagnostic settings: The subscription key in the query string is NOT logged
+ApiManagementGatewayLogs 
+| where TimeGenerated > ago(7d)
+| where Url has 'subscription-key'
