@@ -9,6 +9,14 @@ Deploys an Azure API Management service and an Application Gateway with a Web Ap
 - See the `logScrubbing` setting of the resource `wafPolicy` in [application-gateway.bicep](infra/modules/services/application-gateway.bicep) for how to mask the `subscription-key` query parameter in the Application Gateway Firewall Logs.  
   **IMPORTANT: The subscription key is still logged in the Application Gateway Access Logs.**
 
+By default, a Consumption tier API Management instance is deployed to reduce cost. 
+This tier doens't support logging to the API Management Gateway Logs, even though you can deploy the diagnostics settings.
+If you want to have API Management Gateway Logs:
+- Open the [main.bicep](infra/main.bicep).
+- Locate the `apiManagementSettings` variable.
+- Set the `sku` to e.g. `BasicV2`.  
+  If you use a V2 tier, make sure that you select a [supported region](https://learn.microsoft.com/en-us/azure/api-management/api-management-region-availability) during deployment.
+
 
 ## Getting Started
 
