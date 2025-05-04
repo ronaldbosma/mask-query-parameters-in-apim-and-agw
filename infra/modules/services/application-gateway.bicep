@@ -68,6 +68,17 @@ resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPo
       fileUploadLimitInMb: 100
       state: 'Enabled'
       mode: 'Detection'
+      logScrubbing: {
+        state: 'Enabled'
+        scrubbingRules: [
+          {
+            matchVariable: 'RequestArgNames'
+            selectorMatchOperator: 'Equals'
+            selector: 'subscription-key'
+            state: 'Enabled'
+          }
+        ]
+      }
     }
     managedRules: {
       managedRuleSets: [
