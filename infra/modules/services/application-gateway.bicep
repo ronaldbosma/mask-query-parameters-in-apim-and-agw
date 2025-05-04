@@ -56,6 +56,30 @@ resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
 }
 
 
+// Web Application Firewall (WAF) Policy
+
+resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies@2024-05-01' = {
+  name: applicationGatewaySettings.wafPolicyName
+  location: location
+  properties: {
+    policySettings: {
+      requestBodyCheck: false
+      maxRequestBodySizeInKb: 128
+      fileUploadLimitInMb: 100
+      state: 'Enabled'
+      mode: 'Detection'
+    }
+    managedRules: {
+      managedRuleSets: [
+        {
+          ruleSetType: 'Microsoft_DefaultRuleSet'
+          ruleSetVersion: '2.1'
+        }
+      ]
+    }
+  }
+}
+
 // Application Gateway
 
 resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' = {
@@ -63,8 +87,8 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' =
   location: location
   properties: {
     sku: {
-      name: 'Standard_v2'
-      tier: 'Standard_v2'
+      name: 'WAF_v2'
+      tier: 'WAF_v2'
     }
     enableHttp2: false
     autoscaleConfiguration: {
@@ -83,6 +107,10 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' =
       }
     ]
 
+    // WAF Policy
+    firewallPolicy: {
+      id: wafPolicy.id
+    }
 
     // Frontend
 

@@ -55,6 +55,7 @@ var appInsightsSettings = {
 var applicationGatewaySettings = {
   applicationGatewayName: getResourceName('applicationGateway', environmentName, location, instanceId)
   publicIpAddressName: getResourceName('publicIpAddress', environmentName, location, instanceId)
+  wafPolicyName: getResourceName('webApplicationFirewallPolicy', environmentName, location, instanceId)
 }
 
 var virtualNetworkSettings = {

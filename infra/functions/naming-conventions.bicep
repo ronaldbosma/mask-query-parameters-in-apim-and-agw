@@ -119,6 +119,7 @@ func getPrefixMap() object => {
   virtualMachine: 'vm'
   virtualNetwork: 'vnet'
   webApp: 'app' 
+  webApplicationFirewallPolicy: 'waf' 
   
   // Custom prefixes not specified on the Microsoft site
   webtest: 'webtest'

@@ -43,6 +43,9 @@ type applicationGatewaySettingsType = {
   
   @description('The name of the public IP address for the Application Gateway')
   publicIpAddressName: string
+
+  @description('The name of the Web Application Firewall (WAF) policy')
+  wafPolicyName: string
 }
 
 
