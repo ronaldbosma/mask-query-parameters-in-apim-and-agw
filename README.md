@@ -3,6 +3,12 @@
 > [!IMPORTANT]  
 > This template is under construction and not yet fully functional.
 
+Deploys an Azure API Management service and an Application Gateway with a Web Application Firewall (WAF) to show how to mask query parameters in logging.
+
+- See the `dataMasking` settings of the `apimInsightsDiagnostics` resource in [api-management.bicep](infra/modules/services/api-management.bicep) for how to mask the `subscription-key` query parameter in the request logs.
+- See the `logScrubbing` setting of the resource `wafPolicy` in [application-gateway.bicep](infra/modules/services/application-gateway.bicep) for how to mask the `subscription-key` query parameter in the Application Gateway Firewall Logs.  
+  **IMPORTANT: The subscription key is still logged in the Application Gateway Access Logs.**
+
 
 ## Getting Started
 
