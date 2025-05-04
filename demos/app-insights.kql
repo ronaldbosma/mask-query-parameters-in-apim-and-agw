@@ -1,0 +1,10 @@
+//=============================================================================
+// Requests
+//=============================================================================
+
+// API Management requests
+requests
+| where customDimensions["Service Type"] == "API Management"
+| extend subscription = tostring(customDimensions["Subscription Name"])
+| project timestamp, subscription, url
+
