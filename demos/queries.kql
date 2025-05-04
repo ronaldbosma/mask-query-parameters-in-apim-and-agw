@@ -1,13 +1,32 @@
 //=============================================================================
+// Requests
+//=============================================================================
+
+// API Management requests
+requests
+| where customDimensions["Service Type"] == "API Management"
+| extend subscription = tostring(customDimensions["Subscription Name"])
+| project timestamp, subscription, url
+
+
+//=============================================================================
 // Azure Diagnostics
 //=============================================================================
 
-// Application Gateway diagnostic settings: The subscription key in the query string is logged
+// Application Gateway Access Log: The subscription key in the query string is logged
 AzureDiagnostics
 | where ResourceType == 'APPLICATIONGATEWAYS'
 | where Category == 'ApplicationGatewayAccessLog'
 | where originalRequestUriWithArgs_s has 'subscription-key'
 | project TimeGenerated, originalRequestUriWithArgs_s
+
+
+// Application Gateway Firewall Log: The subscription key in the query string is logged
+AzureDiagnostics
+| where ResourceType == 'APPLICATIONGATEWAYS'
+| where Category == 'ApplicationGatewayFirewallLog'
+| where requestUri_s has 'subscription-key'
+| project TimeGenerated, requestUri_s
 
 
 // Nothing query param related in NSG logging
@@ -34,10 +53,11 @@ AGWAccessLogs
 AGWFirewallLogs 
 | where TimeGenerated > ago(7d)
 | where RequestUri has 'subscription-key'
-| project TimeGenerated, OperationName, RequestUri
+| project TimeGenerated, RequestUri
 
 
 // API Management diagnostic settings: The subscription key in the query string is NOT logged
 ApiManagementGatewayLogs 
 | where TimeGenerated > ago(7d)
 | where Url has 'subscription-key'
+| project TimeGenerated, Url
