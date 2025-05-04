@@ -13,11 +13,14 @@ import { getApiManagementFqdn } from '../../functions/helpers.bicep'
 // Parameters
 //=============================================================================
 
-@description('The settings for the Application Gateway')
-param applicationGatewaySettings applicationGatewaySettingsType
-
 @description('Location to use for all resources')
 param location string = resourceGroup().location
+
+@description('The tags to associate with the resource')
+param tags object
+
+@description('The settings for the Application Gateway')
+param applicationGatewaySettings applicationGatewaySettingsType
 
 @description('The ID of the subnet to use for the API Management service')
 param subnetId string
@@ -45,6 +48,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09
 resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
   name: applicationGatewaySettings.publicIpAddressName
   location: location
+  tags: tags
   sku: {
     name: 'Standard'
   }
@@ -61,6 +65,7 @@ resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
 resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies@2024-05-01' = {
   name: applicationGatewaySettings.wafPolicyName
   location: location
+  tags: tags
   properties: {
     policySettings: {
       requestBodyCheck: false
@@ -96,6 +101,7 @@ resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPo
 resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' = {
   name: applicationGatewaySettings.applicationGatewayName
   location: location
+  tags: tags
   properties: {
     sku: {
       name: 'WAF_v2'

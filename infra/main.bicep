@@ -92,8 +92,9 @@ module virtualNetwork 'modules/services/virtual-network.bicep' = {
   name: 'virtualNetwork'
   scope: resourceGroup
   params: {
-    virtualNetworkSettings: virtualNetworkSettings
     location: location
+    tags: tags
+    virtualNetworkSettings: virtualNetworkSettings
   }
 }
 
@@ -115,8 +116,9 @@ module appGateway './modules/services/application-gateway.bicep' = {
   name: 'appGateway'
   scope: resourceGroup
   params: {
-    applicationGatewaySettings: applicationGatewaySettings
     location: location
+    tags: tags
+    applicationGatewaySettings: applicationGatewaySettings
     subnetId: virtualNetwork.outputs.agwSubnetId
     apiManagementServiceName: apiManagementSettings.serviceName
     appInsightsSettings: appInsightsSettings

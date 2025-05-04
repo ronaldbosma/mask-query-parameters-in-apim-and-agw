@@ -12,11 +12,14 @@ import { virtualNetworkSettingsType } from '../../types/settings.bicep'
 // Parameters
 //=============================================================================
 
-@description('The settings for the virtual network')
-param virtualNetworkSettings virtualNetworkSettingsType
-
 @description('Location to use for all resources')
 param location string
+
+@description('The tags to associate with the resource')
+param tags object
+
+@description('The settings for the virtual network')
+param virtualNetworkSettings virtualNetworkSettingsType
 
 //=============================================================================
 // Resources
@@ -26,6 +29,7 @@ param location string
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-05-01' = {
   name: virtualNetworkSettings.virtualNetworkName
   location: location
+  tags: tags
   properties: {
     addressSpace: {
       addressPrefixes: [
