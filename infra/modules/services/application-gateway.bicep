@@ -73,18 +73,23 @@ resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPo
       fileUploadLimitInMb: 100
       state: 'Enabled'
       mode: 'Detection'
+
+      // The log scrubbing feature is only supported on Web Application Firewalls running the latest WAF engine. 
+      // Select OWASP CRS 3.2 or Default Rule Set 2.1 as the managed rule set.
+      // See: https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/waf-sensitive-data-protection-configure?tabs=browser
       logScrubbing: {
         state: 'Enabled'
         scrubbingRules: [
           {
             matchVariable: 'RequestArgNames'
             selectorMatchOperator: 'Equals'
-            selector: 'subscription-key'
+            selector: 'subscription-key'      // Use * the mask all query parameters
             state: 'Enabled'
           }
         ]
       }
     }
+
     managedRules: {
       managedRuleSets: [
         {

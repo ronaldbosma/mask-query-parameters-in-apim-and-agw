@@ -110,8 +110,8 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
         dataMasking: {
           queryParams: [
             {
-              value: 'subscription-key'
-              mode: 'Mask'
+              value: 'subscription-key' // Use * to mask or hide all query parameters
+              mode: 'Mask'              // Valid modes are: Hide and Mask
             }
           ]
         }
@@ -122,8 +122,8 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
         dataMasking: {
           queryParams: [
             {
-              value: 'subscription-key'
-              mode: 'Mask'
+              value: 'subscription-key' // Use * to mask or hide all query parameters
+              mode: 'Mask'              // Valid modes are: Hide and Mask
             }
           ]
         }
