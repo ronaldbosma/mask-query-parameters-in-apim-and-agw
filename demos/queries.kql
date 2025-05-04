@@ -26,7 +26,15 @@ AzureDiagnostics
 | where ResourceType == 'APPLICATIONGATEWAYS'
 | where Category == 'ApplicationGatewayFirewallLog'
 | where requestUri_s has 'subscription-key'
-| project TimeGenerated, requestUri_s
+// we use distinct because multiple records for a single request are logged
+| distinct TimeGenerated, requestUri_s
+
+
+// API Management Gateway Log: The subscription key in the query string is NOT logged
+AzureDiagnostics
+| where ResourceType == 'SERVICE'
+| where Category == 'GatewayLogs'
+| project TimeGenerated, url_s, requestUri_s
 
 
 // Nothing query param related in NSG logging
@@ -49,14 +57,14 @@ AGWAccessLogs
 | project TimeGenerated, OriginalRequestUriWithArgs
 
 
-// Found results
+// Application Gateway Firewall Log: The subscription key in the query string is logged
 AGWFirewallLogs 
 | where TimeGenerated > ago(7d)
 | where RequestUri has 'subscription-key'
 | project TimeGenerated, RequestUri
 
 
-// API Management diagnostic settings: The subscription key in the query string is NOT logged
+// API Management Gateway Log: The subscription key in the query string is NOT logged
 ApiManagementGatewayLogs 
 | where TimeGenerated > ago(7d)
 | where Url has 'subscription-key'
