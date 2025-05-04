@@ -32,6 +32,7 @@ AzureDiagnostics
 
 
 // API Management Gateway Log: The subscription key in the query string is NOT logged
+// NOTE: This query won't show results if you deployed a Consumption tier APIM
 AzureDiagnostics
 | where ResourceType == 'SERVICE'
 | where Category == 'GatewayLogs'
@@ -56,6 +57,7 @@ AGWFirewallLogs
 
 
 // API Management Gateway Log: The subscription key in the query string is NOT logged
+// NOTE: This query won't show results if you deployed a Consumption tier APIM
 ApiManagementGatewayLogs 
 | where Url has 'subscription-key'
 | project TimeGenerated, Url
