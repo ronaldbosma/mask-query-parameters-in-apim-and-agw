@@ -6,6 +6,9 @@ type apiManagementSettingsType = {
   @description('The name of the API Management service')
   serviceName: string
 
+  @description('The SKU of the API Management service')
+  sku: string
+
   @description('The name of the owner of the API Management service')
   publisherName: string
 
