@@ -4,6 +4,7 @@
 
 // Application Gateway diagnostic settings: The subscription key in the query string is logged
 AzureDiagnostics
+| where ResourceType == 'APPLICATIONGATEWAYS'
 | where Category == 'ApplicationGatewayAccessLog'
 | where originalRequestUriWithArgs_s has 'subscription-key'
 | project TimeGenerated, originalRequestUriWithArgs_s
@@ -11,6 +12,7 @@ AzureDiagnostics
 
 // Nothing query param related in NSG logging
 AzureDiagnostics
+| where ResourceType == 'NETWORKSECURITYGROUPS'
 | where Category startswith "NetworkSecurityGroup"
 
 
