@@ -5,14 +5,15 @@
 
 Deploys an Azure API Management service and an Application Gateway with a Web Application Firewall (WAF) to show how to mask query parameters in logging.
 
-- **API Management**: See the `dataMasking` settings of the `apimInsightsDiagnostics` resource in [api-management.bicep](infra/modules/services/api-management.bicep) for how to mask the `subscription-key` query parameter in the request logs.
-- **Application Gateway**: See the `logScrubbing` setting of the resource `wafPolicy` in [application-gateway.bicep](infra/modules/services/application-gateway.bicep) for how to mask the `subscription-key` query parameter in the Application Gateway Firewall Logs.  
-
-  **IMPORTANT: The subscription key is still logged in the Application Gateway Access Logs.** Haven't found a way to mask it.
+Relevant logs:
+- **Application Gateway - Access Log**: IMPORTANT: The subscription key is logged in the Application Gateway Access Log and I haven't found a way to mask it.
+- **Application Gateway - Firewall Log**: See the `logScrubbing` setting of the resource `wafPolicy` in [application-gateway.bicep](infra/modules/services/application-gateway.bicep) for how to mask the `subscription-key` query parameter in the Application Gateway Firewall Log.
+- **API Management - Requests**: See the `dataMasking` settings of the `apimInsightsDiagnostics` resource in [api-management.bicep](infra/modules/services/api-management.bicep) for how to mask the `subscription-key` query parameter in the request logs.
+- **API Management - Gateway Log**: No query parameters are logged in the gateway log. So, no masking is required.
 
 By default, a Consumption tier API Management instance is deployed to reduce cost. 
-This tier doens't support logging to the API Management Gateway Logs, even though you can deploy the diagnostics settings.
-If you want to have API Management Gateway Logs:
+This tier doens't support logging to the API Management Gateway Log, even though you can deploy the diagnostics settings.
+If you want to have API Management Gateway Log:
 - Open the [main.bicep](infra/main.bicep).
 - Locate the `apiManagementSettings` variable.
 - Set the `sku` to e.g. `BasicV2`.  
