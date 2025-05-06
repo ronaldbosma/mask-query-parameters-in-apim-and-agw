@@ -12,8 +12,8 @@ Relevant logs:
 - **API Management - Gateway Log**: No query parameters are logged in the gateway log. So, no masking is required.
 
   By default, a Consumption tier API Management instance is deployed to reduce cost. 
-  This tier doens't support logging to the API Management Gateway Log, even though you can deploy the diagnostics settings.
-  If you want to have API Management Gateway Log:
+  This tier doesn't support logging to the API Management Gateway Log, even though you can deploy the diagnostics settings.
+  If you want to have the API Management Gateway Log, deploy a different tier:
   - Open the [main.bicep](infra/main.bicep).
   - Locate the `apiManagementSettings` variable.
   - Set the `sku` to e.g. `BasicV2`.  
