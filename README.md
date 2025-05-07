@@ -1,8 +1,5 @@
 # Mask query parameters in Azure API Management and Application Gateway
 
-> [!IMPORTANT]  
-> This template is under construction and not yet fully functional.
-
 Deploys an Azure API Management service and an Application Gateway with a Web Application Firewall (WAF) to show how to mask query parameters in logging.
 
 Relevant logs:
