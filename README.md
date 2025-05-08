@@ -59,28 +59,9 @@ Once the prerequisites are installed on your machine, you can deploy this templa
 
 1. Once the deployment is complete, you can locally modify the application or infrastructure and run `azd up` again to update the resources in Azure.
 
-### Test
+### Demo
 
-The [tests.http](./tests/tests.http) file contains a set of HTTP requests that you can use to test the deployed resources. 
-
-Follow these steps to test the sample application using Visual Studio Code:
-
-1. Install the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension in Visual Studio Code. 
-1. The API is protected and needs to be called with a subscription key. Locate the `Built-in all-access` subscription in API Management and copy the primary key.
-1. Add an environment to your Visual Studio Code user settings with the Application Gateway public IP address, API Management hostname and subscription key. Use the following example and replace the values with your own:
-   ```
-   "rest-client.environmentVariables": {
-       "maskqueryparam": {
-           "agwIPAddress": "123.456.78.90",
-           "apimHostname": "apim-maskqueryparams-nwe-kt2tx.azure-api.net",
-           "apimSubscriptionKey": "1234567890abcdefghijklmnopqrstuv"
-       }
-   }
-   ```
-1. Open `tests.http` and at the bottom right of the editor, select the `maskqueryparam` environment you just configured.
-1. Click on `Send Request` above the requests. This will call the Echo API with the subscription key as a query parameter.
-1. Open the Log Analytics Workspace in the Azure portal and select `Logs` in the left menu.
-1. Execute the queries in [log-analytics-workspace.kql](demos/log-analytics-workspace.kql) to see the various logging.
+See the [Demo Guide](demos/demo-query-param-masking.md) for a step-by-step walkthrough on how to check and demonstrate the masking of query parameters.
 
 ### Clean up
 
