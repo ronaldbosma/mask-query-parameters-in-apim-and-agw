@@ -57,6 +57,14 @@ AzureDiagnostics
 | project TimeGenerated, originalRequestUriWithArgs_s
 ```
 
+If you encounter the error below, it means that no logs have been generated yet. 
+The `originalRequestUriWithArgs_s` column will only appear after the first request has been logged.
+
+```
+'project' operator: Failed to resolve scalar expression named 'originalRequestUriWithArgs_s'
+```
+
+
 #### Application Gateway - Firewall Log
 
 You can use the following query to see the requests that were logged in the Application Gateway Firewall Log.
