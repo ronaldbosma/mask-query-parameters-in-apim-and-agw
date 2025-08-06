@@ -5,7 +5,8 @@ metadata:
   template: mask-query-parameters-in-apim-and-agw@0.0.0
 hooks:
   predown:
-    shell: pwsh
-    run: ./hooks/predown.ps1
+    - shell: pwsh
+      run: ./hooks/predown-remove-law.ps1
+      interactive: true
 requiredVersions: 
   azd: ">= 1.17.0"  # azd version 1.17.0 or later is required because of the new bicep linter rule 'no-unused-imports'.
