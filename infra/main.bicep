@@ -77,7 +77,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-07-01' = {
 }
 
 module appInsights 'modules/services/app-insights.bicep' = {
-  name: 'appInsights'
   scope: resourceGroup
   params: {
     location: location
@@ -87,7 +86,6 @@ module appInsights 'modules/services/app-insights.bicep' = {
 }
 
 module virtualNetwork 'modules/services/virtual-network.bicep' = {
-  name: 'virtualNetwork'
   scope: resourceGroup
   params: {
     location: location
@@ -97,7 +95,6 @@ module virtualNetwork 'modules/services/virtual-network.bicep' = {
 }
 
 module apiManagement 'modules/services/api-management.bicep' = {
-  name: 'apiManagement'
   scope: resourceGroup
   params: {
     location: location
@@ -111,7 +108,6 @@ module apiManagement 'modules/services/api-management.bicep' = {
 }
 
 module appGateway './modules/services/application-gateway.bicep' = {
-  name: 'appGateway'
   scope: resourceGroup
   params: {
     location: location
@@ -129,7 +125,6 @@ module appGateway './modules/services/application-gateway.bicep' = {
 //=============================================================================
 
 module echoApi 'modules/application/echo-api.bicep' = {
-  name: 'echoApi'
   scope: resourceGroup
   params: {
     apiManagementServiceName: apiManagementSettings.serviceName
