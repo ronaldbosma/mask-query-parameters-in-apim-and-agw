@@ -47,10 +47,16 @@ Once the prerequisites are installed on your machine, you can deploy this templa
 
     When prompted, specify the name of the environment, for example, `maskqueryparams`. The maximum length is 32 characters.
 
-1. Run the `azd auth login` command to authenticate to your Azure subscription _(if you haven't already)_.
+1. Run the `azd auth login` command to authenticate to your Azure subscription using the **Azure Developer CLI** _(if you haven't already)_.
 
     ```cmd
     azd auth login
+    ```
+
+1. Run the `az login` command to authenticate to your Azure subscription using the **Azure CLI** _(if you haven't already)_. This is required for the [hooks](#hooks) to function properly. Make sure to log into the same tenant as the Azure Developer CLI.
+
+    ```cmd
+    az login
     ```
 
 1. Run the `azd up` command to provision the resources in your Azure subscription. 
