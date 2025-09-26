@@ -27,9 +27,13 @@ Before you can deploy this template, make sure you have the following tools inst
   - Installing `azd` also installs the following tools:  
     - [GitHub CLI](https://cli.github.com)  
     - [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)  
-- [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) 
-  _(This template uses a predown hook to permanently delete the log analytics workspace to prevent issues with future deployments.)_
-- You need Owner or Contributor permissions on an Azure Subscription to deploy this template.  
+
+#### Optional Prerequisites
+
+This templates uses a hook to permanently delete the Log Analytics Workspace. If you do not have the following tools installed, remove the hook from [azure.yaml](azure.yaml). See [this section](#hooks) for more information.
+
+- [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
+- [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 
 ### Deployment
 
@@ -70,6 +74,16 @@ Once you're done and want to clean up, run the `azd down` command. By including 
 ```cmd
 azd down --purge
 ```
+
+
+## Hooks
+
+This template has hooks that are executed at different stages of the deployment process. The following hooks are included:
+  
+- [predown-remove-law.ps1](hooks/predown-remove-law.ps1): 
+  This PowerShell script is executed before the resources are removed. 
+  It permanently deletes the Log Analytics workspace to prevent issues with future deployments. 
+  Sometimes the requests and traces don't show up in Application Insights & Log Analytics when removing and deploying the template multiple times.
 
 
 ## Troubleshooting
