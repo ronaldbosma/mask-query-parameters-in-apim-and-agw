@@ -82,6 +82,28 @@ azd down --purge
 ```
 
 
+## Contents
+
+The repository consists of the following files and directories:
+
+```
+├── demos                      [ Demo guide(s) ]
+├── hooks                      [ AZD hooks ]
+├── images                     [ Images used in the README ]
+├── infra                      [ Infrastructure As Code files ]
+│   ├── functions              [ Bicep user-defined functions ]
+│   ├── modules                
+│   │   ├── application        [ Modules for application infrastructure resources ]
+│   │   └── services           [ Modules for all Azure services ]
+│   ├── types                  [ Bicep user-defined types ]
+│   ├── main.bicep             [ Main infrastructure file ]
+│   └── main.parameters.json   [ Parameters file ]
+├── tests                      [ Test files and scripts ]
+├── azure.yaml                 [ Describes the apps and types of Azure resources ]
+└── bicepconfig.json           [ Bicep configuration file ]
+```
+
+
 ## Hooks
 
 This template has hooks that are executed at different stages of the deployment process. The following hooks are included:
