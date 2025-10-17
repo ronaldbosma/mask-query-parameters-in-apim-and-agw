@@ -16,6 +16,9 @@ Relevant logs:
   - Set the `sku` to e.g. `BasicV2`.  
     If you use a V2 tier, make sure that you select a [supported region](https://learn.microsoft.com/en-us/azure/api-management/api-management-region-availability) during deployment.
 
+> [!IMPORTANT]  
+> This template is not production-ready; it uses minimal cost SKUs and omits network isolation, advanced security, governance and resiliency. Harden security, implement enterprise controls and/or replace modules with [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/) before any production use.
+
 
 ## Getting Started
 
