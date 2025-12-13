@@ -100,11 +100,14 @@ The repository consists of the following files and directories:
 │   ├── functions              [ Bicep user-defined functions ]
 │   ├── modules                
 │   │   ├── application        [ Modules for application infrastructure resources ]
-│   │   └── services           [ Modules for all Azure services ]
+│   │   ├── services           [ Modules for all Azure services ]
+│   │   └── shared             [ Reusable modules ]
 │   ├── types                  [ Bicep user-defined types ]
 │   ├── main.bicep             [ Main infrastructure file ]
 │   └── main.parameters.json   [ Parameters file ]
-├── tests                      [ Test files and scripts ]
+├── tests                      
+│   ├── IntegrationTests       [ Integration tests for automatically verifying different scenarios ]
+│   └── tests.http             [ HTTP requests to test the deployed resources ]
 ├── azure.yaml                 [ Describes the apps and types of Azure resources ]
 └── bicepconfig.json           [ Bicep configuration file ]
 ```
