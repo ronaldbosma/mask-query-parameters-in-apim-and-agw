@@ -176,3 +176,9 @@ resource apimMasterSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2024
     value: masterSubscription.listSecrets(apiManagementService.apiVersion).primaryKey
   }
 }
+
+//=============================================================================
+// Outputs
+//=============================================================================
+
+output gatewayUrl string = apiManagementService.properties.gatewayUrl
