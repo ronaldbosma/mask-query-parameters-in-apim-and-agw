@@ -56,6 +56,8 @@ var applicationGatewaySettings = {
   wafPolicyName: getResourceName('webApplicationFirewallPolicy', environmentName, location, instanceId)
 }
 
+var keyVaultName string = getResourceName('keyVault', environmentName, location, instanceId)
+
 var virtualNetworkSettings = {
   virtualNetworkName: getResourceName('virtualNetwork', environmentName, location, instanceId)
   applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, 'agw-${instanceId}')
@@ -101,6 +103,7 @@ module apiManagement 'modules/services/api-management.bicep' = {
     tags: tags
     apiManagementSettings: apiManagementSettings
     appInsightsSettings: appInsightsSettings
+    keyVaultName: keyVaultName
   }
   dependsOn: [
     appInsights
@@ -117,6 +120,27 @@ module appGateway './modules/services/application-gateway.bicep' = {
     apiManagementServiceName: apiManagementSettings.serviceName
     appInsightsSettings: appInsightsSettings
   }
+}
+
+module keyVault 'modules/services/key-vault.bicep' = {
+  scope: resourceGroup
+  params: {
+    location: location
+    tags: tags
+    keyVaultName: keyVaultName
+  }
+}
+
+module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = {
+  scope: resourceGroup
+  params: {
+    principalId: deployer().objectId
+    isAdmin: true
+    keyVaultName: keyVaultName
+  }
+  dependsOn: [
+    keyVault
+  ]
 }
 
 
