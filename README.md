@@ -41,6 +41,9 @@ This templates uses a hook to permanently delete the Log Analytics Workspace. If
 - [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 
+To build and run the [integration tests](#integration-tests) locally, you need the following additional tools:
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)  
+
 ### Deployment
 
 Once the prerequisites are installed on your machine, you can deploy this template using the following steps:
@@ -93,6 +96,8 @@ azd down --purge
 The repository consists of the following files and directories:
 
 ```
+├── .github                    
+│   └── workflows              [ GitHub Actions workflow(s) ]
 ├── demos                      [ Demo guide(s) ]
 ├── hooks                      [ AZD hooks ]
 ├── images                     [ Images used in the README ]
@@ -121,6 +126,51 @@ This template has hooks that are executed at different stages of the deployment 
   This PowerShell script is executed before the resources are removed. 
   It permanently deletes all Log Analytics workspaces in the resource group to prevent issues with future deployments.
   Sometimes the requests and traces don't show up in Application Insights & Log Analytics when removing and deploying the template multiple times.
+
+
+## Pipeline
+
+This template includes a GitHub Actions workflow that automates the build, deployment and cleanup process. The workflow is defined in [azure-dev.yml](.github/workflows/azure-dev.yml) and provides a complete CI/CD pipeline for this template using the Azure Developer CLI.
+
+![GitHub Actions Workflow Summary](images/github-actions-workflow-summary.png)
+
+The pipeline consists of the following jobs:
+
+- **Build, Verify and Package**: This job sets up the build environment, validates the Bicep template and packages the integration tests.
+- **Deploy to Azure**: This job provisions the Azure infrastructure and deploys the packaged applications to the created resources.
+- **Verify Deployment**: This job runs automated [integration tests](#integration-tests) on the deployed resources to verify correct functionality.
+- **Clean Up Resources**: This job removes all deployed Azure resources.  
+
+  By default, cleanup runs automatically after the deployment. This can be disabled via an input parameter when the workflow is triggered manually.
+
+  ![GitHub Actions Manual Trigger](images/github-actions-workflow-manual-trigger.png)
+
+### Setting Up the Pipeline
+
+To set up the pipeline in your own repository, run the following command:
+
+```cmd
+azd pipeline config
+```
+
+Follow the instructions and choose either **Federated User Managed Identity (MSI + OIDC)** or **Federated Service Principal (SP + OIDC)**, as OpenID Connect (OIDC) is the authentication method used by the pipeline.
+
+For detailed guidance, refer to:
+- [Explore Azure Developer CLI support for CI/CD pipelines](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/configure-devops-pipeline)
+- [Create a GitHub Actions CI/CD pipeline using the Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/pipeline-github-actions)
+
+> [!TIP]
+> By default, `AZURE_CLIENT_ID`, `AZURE_TENANT_ID` and `AZURE_SUBSCRIPTION_ID` are created as variables when running `azd pipeline config`. However, [Microsoft recommends](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect) using secrets for these values to avoid exposing them in logs. The workflow supports both approaches, so you can manually create secrets and remove the variables if desired.
+
+> [!NOTE]
+> The environment name in the `AZURE_ENV_NAME` variable is suffixed with `-pr{id}` for pull requests. This prevents conflicts when multiple PRs are open and avoids accidental removal of environments, because the environment name tag is used when removing resources.
+
+
+## Integration Tests
+
+The project includes integration tests built with **.NET 9** that validate various scenarios through the deployed Azure services. 
+The tests send the same test requests described in the [Demo](./demos/demo-query-param-masking.md) and are located in [EchoApiTests.cs](tests/IntegrationTests/EchoApiTests.cs).
+They automatically locate your azd environment's `.env` file if available, to retrieve necessary configuration. In the [pipeline](#pipeline) they rely on environment variables set in the workflow.
 
 
 ## Troubleshooting
