@@ -263,3 +263,10 @@ resource applicationGatewayDiagnosticSettings 'Microsoft.Insights/diagnosticSett
     ]
   }
 }
+
+
+//=============================================================================
+// Outputs
+//=============================================================================
+
+output publicIpAddress string = agwPublicIPAddress.properties.ipAddress

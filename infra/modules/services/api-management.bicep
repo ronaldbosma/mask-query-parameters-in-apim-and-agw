@@ -24,6 +24,9 @@ param apiManagementSettings apiManagementSettingsType
 @description('The settings for App Insights')
 param appInsightsSettings appInsightsSettingsType
 
+@description('The name of the Key Vault that will contain the secrets')
+param keyVaultName string
+
 //=============================================================================
 // Variables
 //=============================================================================
@@ -42,6 +45,15 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
   name: appInsightsSettings.logAnalyticsWorkspaceName
+}
+
+resource keyVault 'Microsoft.KeyVault/vaults@2024-11-01' existing = {
+  name: keyVaultName
+}
+
+resource masterSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-06-01-preview' existing = {
+  name: 'master'
+  parent: apiManagementService
 }
 
 //=============================================================================
@@ -153,3 +165,20 @@ resource apimDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-0
     ]
   }
 }
+
+
+// Store master subscription key in Key Vault
+
+resource apimMasterSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2024-11-01' = {
+  name: 'apim-master-subscription-key'
+  parent: keyVault
+  properties: {
+    value: masterSubscription.listSecrets(apiManagementService.apiVersion).primaryKey
+  }
+}
+
+//=============================================================================
+// Outputs
+//=============================================================================
+
+output gatewayUrl string = apiManagementService.properties.gatewayUrl
