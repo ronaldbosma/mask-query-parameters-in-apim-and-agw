@@ -1,6 +1,7 @@
 # Mask query parameters in Azure API Management and Application Gateway
 
 Deploys an Azure API Management service and an Application Gateway with a Web Application Firewall (WAF) to show how to mask query parameters in logging.
+A Key Vault is also included to securely store client secrets for integration tests.
 
 Relevant logs:
 - **Application Gateway - Access Log**: IMPORTANT: The subscription key is logged in the Application Gateway Access Log and I haven't found a way to mask it.
