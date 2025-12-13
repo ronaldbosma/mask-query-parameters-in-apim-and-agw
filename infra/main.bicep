@@ -173,4 +173,4 @@ output AZURE_RESOURCE_GROUP string = resourceGroupName
 // Return resource endpoints
 output AZURE_API_MANAGEMENT_GATEWAY_URL string = apiManagement.outputs.gatewayUrl
 output AZURE_KEY_VAULT_URI string = keyVault.outputs.vaultUri
-output AZURE_APPLICATION_GATEWAY_PUBLIC_IP string = appGateway.outputs.publicIpAddress
+output AZURE_APPLICATION_GATEWAY_PUBLIC_IP_ADDRESS string = appGateway.outputs.publicIpAddress
