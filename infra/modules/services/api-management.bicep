@@ -51,7 +51,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2024-11-01' existing = {
   name: keyVaultName
 }
 
-resource masterSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-06-01-preview' existing = {
+resource masterSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-10-01-preview' existing = {
   name: 'master'
   parent: apiManagementService
 }
@@ -62,7 +62,7 @@ resource masterSubscription 'Microsoft.ApiManagement/service/subscriptions@2024-
 
 // API Management - Consumption tier (see also: https://learn.microsoft.com/en-us/azure/api-management/quickstart-bicep?tabs=CLI)
 
-resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-preview' = {
+resource apiManagementService 'Microsoft.ApiManagement/service@2024-10-01-preview' = {
   name: apiManagementSettings.serviceName
   location: location
   tags: serviceTags
@@ -82,7 +82,7 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2024-06-01-previe
 
 // Store the app insights connection string in a named value
 
-resource appInsightsConnectionStringNamedValue 'Microsoft.ApiManagement/service/namedValues@2024-06-01-preview' = {
+resource appInsightsConnectionStringNamedValue 'Microsoft.ApiManagement/service/namedValues@2024-10-01-preview' = {
   name: 'appinsights-connection-string'
   parent: apiManagementService
   properties: {
@@ -96,7 +96,7 @@ resource appInsightsConnectionStringNamedValue 'Microsoft.ApiManagement/service/
 // - we need a logger that is connected to the App Insights instance
 // - we need diagnostics settings that specify what to log to the logger
 
-resource apimAppInsightsLogger 'Microsoft.ApiManagement/service/loggers@2024-06-01-preview' = {
+resource apimAppInsightsLogger 'Microsoft.ApiManagement/service/loggers@2024-10-01-preview' = {
   name: appInsightsSettings.appInsightsName
   parent: apiManagementService
   properties: {
@@ -110,7 +110,7 @@ resource apimAppInsightsLogger 'Microsoft.ApiManagement/service/loggers@2024-06-
   }
 }
 
-resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@2024-06-01-preview' = {
+resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@2024-10-01-preview' = {
   name: 'applicationinsights' // The name of the diagnostics resource has to be applicationinsights, because that's the logger type we chose
   parent: apiManagementService
   properties: {
