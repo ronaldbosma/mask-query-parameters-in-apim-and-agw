@@ -47,7 +47,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-07
   name: appInsightsSettings.logAnalyticsWorkspaceName
 }
 
-resource keyVault 'Microsoft.KeyVault/vaults@2024-11-01' existing = {
+resource keyVault 'Microsoft.KeyVault/vaults@2025-05-01' existing = {
   name: keyVaultName
 }
 
@@ -169,7 +169,7 @@ resource apimDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-0
 
 // Store master subscription key in Key Vault
 
-resource apimMasterSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2024-11-01' = {
+resource apimMasterSubscriptionKeySecret 'Microsoft.KeyVault/vaults/secrets@2025-05-01' = {
   name: 'apim-master-subscription-key'
   parent: keyVault
   properties: {
