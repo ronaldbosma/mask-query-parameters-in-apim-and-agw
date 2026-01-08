@@ -35,7 +35,7 @@ param appInsightsSettings appInsightsSettingsType
 // Existing Resources
 //=============================================================================
 
-resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-07-01' existing = {
   name: appInsightsSettings.logAnalyticsWorkspaceName
 }
 
