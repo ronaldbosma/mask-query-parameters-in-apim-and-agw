@@ -45,7 +45,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-07
 
 // Public IP address
 
-resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
+resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-10-01' = {
   name: applicationGatewaySettings.publicIpAddressName
   location: location
   tags: tags
@@ -62,7 +62,7 @@ resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-05-01' = {
 
 // Web Application Firewall (WAF) Policy
 
-resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies@2024-05-01' = {
+resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies@2024-10-01' = {
   name: applicationGatewaySettings.wafPolicyName
   location: location
   tags: tags
@@ -103,7 +103,7 @@ resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPo
 
 // Application Gateway
 
-resource applicationGateway 'Microsoft.Network/applicationGateways@2024-05-01' = {
+resource applicationGateway 'Microsoft.Network/applicationGateways@2024-10-01' = {
   name: applicationGatewaySettings.applicationGatewayName
   location: location
   tags: tags
