@@ -19,6 +19,7 @@ func getResourceNameByConvention(resourceType string, environment string, region
 func getInstanceId(environment string, region string, instance string) string =>
   removeWhiteSpaces(instance) == '' ? generateInstanceId(environment, region) : instance
 
+@export()
 func generateInstanceId(environment string, region string) string =>
   substring(uniqueString(subscription().subscriptionId, environment, region), 0, 5)
 
@@ -119,9 +120,11 @@ func getPrefixMap() object => {
   virtualMachine: 'vm'
   virtualNetwork: 'vnet'
   webApp: 'app' 
-  webApplicationFirewallPolicy: 'waf' 
   
   // Custom prefixes not specified on the Microsoft site
+  appRegistration: 'appreg'
+  azdEnvironment: 'azd'
+  client: 'client'
   webtest: 'webtest'
 }
 
