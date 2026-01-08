@@ -10,6 +10,7 @@ targetScope = 'subscription'
 //=============================================================================
 
 import { getResourceName, generateInstanceId } from './functions/naming-conventions.bicep'
+import { apiManagementSettingsType, appInsightsSettingsType, applicationGatewaySettingsType, virtualNetworkSettingsType } from './types/settings.bicep'
 
 //=============================================================================
 // Parameters
@@ -31,20 +32,20 @@ param environmentName string
 // Generate an instance ID to ensure unique resource names
 var instanceId string = generateInstanceId(environmentName, location)
 
-var resourceGroupName = getResourceName('resourceGroup', environmentName, location, instanceId)
+var resourceGroupName string = getResourceName('resourceGroup', environmentName, location, instanceId)
 
-var apiManagementSettings = {
+var apiManagementSettings apiManagementSettingsType = {
   serviceName: getResourceName('apiManagement', environmentName, location, instanceId)
   sku: 'Consumption'
 }
 
-var appInsightsSettings = {
+var appInsightsSettings appInsightsSettingsType = {
   appInsightsName: getResourceName('applicationInsights', environmentName, location, instanceId)
   logAnalyticsWorkspaceName: getResourceName('logAnalyticsWorkspace', environmentName, location, instanceId)
   retentionInDays: 30
 }
 
-var applicationGatewaySettings = {
+var applicationGatewaySettings applicationGatewaySettingsType = {
   applicationGatewayName: getResourceName('applicationGateway', environmentName, location, instanceId)
   publicIpAddressName: getResourceName('publicIpAddress', environmentName, location, instanceId)
   wafPolicyName: getResourceName('webApplicationFirewallPolicy', environmentName, location, instanceId)
@@ -52,12 +53,12 @@ var applicationGatewaySettings = {
 
 var keyVaultName string = getResourceName('keyVault', environmentName, location, instanceId)
 
-var virtualNetworkSettings = {
+var virtualNetworkSettings virtualNetworkSettingsType = {
   virtualNetworkName: getResourceName('virtualNetwork', environmentName, location, instanceId)
   applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, 'agw-${instanceId}')
 }
 
-var tags = {
+var tags { *: string } = {
   'azd-env-name': environmentName
   'azd-template': 'ronaldbosma/mask-query-parameters-in-apim-and-agw'
 }
