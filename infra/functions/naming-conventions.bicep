@@ -125,6 +125,7 @@ func getPrefixMap() object => {
   appRegistration: 'appreg'
   azdEnvironment: 'azd'
   client: 'client'
+  webApplicationFirewallPolicy: 'waf' 
   webtest: 'webtest'
 }
 
