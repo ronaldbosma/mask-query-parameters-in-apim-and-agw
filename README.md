@@ -44,7 +44,7 @@ This templates uses a hook to permanently delete the Log Analytics Workspace. If
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
 
 To build and run the [integration tests](#integration-tests) locally, you need the following additional tools:
-- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)  
+- [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)  
 
 ### Deployment
 
@@ -170,7 +170,7 @@ For detailed guidance, refer to:
 
 ## Integration Tests
 
-The project includes integration tests built with **.NET 9** that validate various scenarios through the deployed Azure services. 
+The project includes integration tests built with **.NET 10** that validate various scenarios through the deployed Azure services. 
 The tests send the same test requests described in the [Demo](./demos/demo-query-param-masking.md) and are located in [EchoApiTests.cs](tests/IntegrationTests/EchoApiTests.cs).
 They automatically locate your azd environment's `.env` file if available, to retrieve necessary configuration. In the [pipeline](#pipeline) they rely on environment variables set in the workflow.
 
