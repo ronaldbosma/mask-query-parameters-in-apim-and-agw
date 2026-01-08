@@ -9,7 +9,8 @@ targetScope = 'subscription'
 // Imports
 //=============================================================================
 
-import { getResourceName, getInstanceId } from './functions/naming-conventions.bicep'
+import { getResourceName, generateInstanceId } from './functions/naming-conventions.bicep'
+import { apiManagementSettingsType, appInsightsSettingsType, applicationGatewaySettingsType, virtualNetworkSettingsType } from './types/settings.bicep'
 
 //=============================================================================
 // Parameters
@@ -24,33 +25,27 @@ param location string
 @description('The name of the environment to deploy to')
 param environmentName string
 
-@maxLength(5) // The maximum length of the storage account name and key vault name is 24 characters. To prevent errors the instance name should be short.
-@description('The instance that will be added to the deployed resources names to make them unique. Will be generated if not provided.')
-param instance string = ''
-
 //=============================================================================
 // Variables
 //=============================================================================
 
-// Determine the instance id based on the provided instance or by generating a new one
-var instanceId = getInstanceId(environmentName, location, instance)
+// Generate an instance ID to ensure unique resource names
+var instanceId string = generateInstanceId(environmentName, location)
 
-var resourceGroupName = getResourceName('resourceGroup', environmentName, location, instanceId)
+var resourceGroupName string = getResourceName('resourceGroup', environmentName, location, instanceId)
 
-var apiManagementSettings = {
+var apiManagementSettings apiManagementSettingsType = {
   serviceName: getResourceName('apiManagement', environmentName, location, instanceId)
   sku: 'Consumption'
-  publisherName: 'admin@example.org'
-  publisherEmail: 'admin@example.org'
 }
 
-var appInsightsSettings = {
+var appInsightsSettings appInsightsSettingsType = {
   appInsightsName: getResourceName('applicationInsights', environmentName, location, instanceId)
   logAnalyticsWorkspaceName: getResourceName('logAnalyticsWorkspace', environmentName, location, instanceId)
   retentionInDays: 30
 }
 
-var applicationGatewaySettings = {
+var applicationGatewaySettings applicationGatewaySettingsType = {
   applicationGatewayName: getResourceName('applicationGateway', environmentName, location, instanceId)
   publicIpAddressName: getResourceName('publicIpAddress', environmentName, location, instanceId)
   wafPolicyName: getResourceName('webApplicationFirewallPolicy', environmentName, location, instanceId)
@@ -58,12 +53,12 @@ var applicationGatewaySettings = {
 
 var keyVaultName string = getResourceName('keyVault', environmentName, location, instanceId)
 
-var virtualNetworkSettings = {
+var virtualNetworkSettings virtualNetworkSettingsType = {
   virtualNetworkName: getResourceName('virtualNetwork', environmentName, location, instanceId)
   applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, 'agw-${instanceId}')
 }
 
-var tags = {
+var tags { *: string } = {
   'azd-env-name': environmentName
   'azd-template': 'ronaldbosma/mask-query-parameters-in-apim-and-agw'
 }
