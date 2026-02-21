@@ -8,14 +8,6 @@ Relevant logs:
 - **API Management - Requests**: See the `dataMasking` settings of the `apimInsightsDiagnostics` resource in [api-management.bicep](infra/modules/services/api-management.bicep) for how to mask the `subscription-key` query parameter in the request logs.
 - **API Management - Gateway Log**: No query parameters are logged in the gateway log. So, no masking is required.
 
-  By default, a Consumption tier API Management instance is deployed to reduce cost. 
-  This tier doesn't support logging to the API Management Gateway Log, even though you can deploy the diagnostics settings.
-  If you want to have the API Management Gateway Log, deploy a different tier:
-  - Open the [main.bicep](infra/main.bicep).
-  - Locate the `apiManagementSettings` variable.
-  - Set the `sku` to e.g. `BasicV2`.  
-    If you use a V2 tier, make sure that you select a [supported region](https://learn.microsoft.com/en-us/azure/api-management/api-management-region-availability) during deployment.
-
 To support monitoring and logging, Application Insights and Log Analytics Workspace are deployed. 
 A Key Vault is also included to securely store client secrets for integration tests.
 
