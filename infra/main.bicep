@@ -36,7 +36,7 @@ var resourceGroupName string = getResourceName('resourceGroup', environmentName,
 
 var apiManagementSettings apiManagementSettingsType = {
   serviceName: getResourceName('apiManagement', environmentName, location, instanceId)
-  sku: 'Consumption'
+  sku: 'BasicV2' // BasicV2 is used because the Consumption tier doesn't support logging to the API Management Gateway Log, even though you can deploy the diagnostics settings.
 }
 
 var appInsightsSettings appInsightsSettingsType = {
@@ -131,9 +131,11 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
   params: {
     principalId: deployer().objectId
     isAdmin: true
+    appInsightsName: appInsightsSettings.appInsightsName
     keyVaultName: keyVaultName
   }
   dependsOn: [
+    appInsights
     keyVault
   ]
 }

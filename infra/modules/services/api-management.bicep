@@ -102,6 +102,16 @@ resource apiManagementService 'Microsoft.ApiManagement/service@2024-10-01-previe
   }
 }
 
+// Assign roles to system-assigned identity of API Management
+
+module assignRolesToApimSystemAssignedIdentity '../shared/assign-roles-to-principal.bicep' = {
+  params: {
+    principalId: apiManagementService.identity.principalId
+    principalType: 'ServicePrincipal'
+    appInsightsName: appInsightsSettings.appInsightsName
+    keyVaultName: keyVaultName
+  }
+}
 
 // Store the app insights connection string in a named value
 
@@ -128,6 +138,7 @@ resource apimAppInsightsLogger 'Microsoft.ApiManagement/service/loggers@2024-10-
       // If we would reference the connection string directly using appInsights.properties.ConnectionString,
       // a new named value is created every time we execute a deployment
       connectionString: '{{${appInsightsConnectionStringNamedValue.properties.displayName}}}'
+      identityClientId: 'SystemAssigned'
     }
     resourceId: appInsights.id
   }
