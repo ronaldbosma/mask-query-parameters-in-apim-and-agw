@@ -36,5 +36,6 @@ AzureDiagnostics
 AzureDiagnostics
 | where ResourceType == 'SERVICE'
 | where Category == 'GatewayLogs'
-| where requestUri_s has 'subscription-key'
+// If you enable this filter, you can see that the subscription key is not logged in the requestUri_s field
+// | where requestUri_s has 'subscription-key'
 | project TimeGenerated, url_s, requestUri_s
