@@ -124,7 +124,6 @@ resource appInsightsConnectionStringNamedValue 'Microsoft.ApiManagement/service/
   }
 }
 
-
 // Configure API Management to log to App Insights
 // - we need a logger that is connected to the App Insights instance
 // - we need diagnostics settings that specify what to log to the logger
@@ -157,7 +156,7 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
           queryParams: [
             {
               value: 'subscription-key' // Use * to mask or hide all query parameters
-              mode: 'Mask'              // Valid modes are: Hide and Mask
+              mode: 'Mask' // Valid modes are: Hide and Mask
             }
           ]
         }
@@ -169,7 +168,7 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
           queryParams: [
             {
               value: 'subscription-key' // Use * to mask or hide all query parameters
-              mode: 'Mask'              // Valid modes are: Hide and Mask
+              mode: 'Mask' // Valid modes are: Hide and Mask
             }
           ]
         }
@@ -177,7 +176,6 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
     }
   }
 }
-
 
 // Diagnostics settings for API Management
 // Thse can be deployed for a Conspumption tier, but don't actualy do anything for this tier
@@ -199,7 +197,6 @@ resource apimDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-0
     ]
   }
 }
-
 
 // Store master subscription key in Key Vault
 

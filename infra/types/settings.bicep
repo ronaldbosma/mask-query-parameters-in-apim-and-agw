@@ -13,7 +13,6 @@ type apiManagementSettingsType = {
   sku: apimSkuType
 }
 
-
 // Application Insights
 
 @description('Retention options for Application Insights')
@@ -32,7 +31,6 @@ type appInsightsSettingsType = {
   retentionInDays: appInsightsRetentionInDaysType
 }
 
-
 // Application Gateway
 
 @description('The settings for the Application Gateway')
@@ -40,14 +38,13 @@ type appInsightsSettingsType = {
 type applicationGatewaySettingsType = {
   @description('The name of the Application Gateway')
   applicationGatewayName: string
-  
+
   @description('The name of the public IP address for the Application Gateway')
   publicIpAddressName: string
 
   @description('The name of the Web Application Firewall (WAF) policy')
   wafPolicyName: string
 }
-
 
 // Virtual Network
 

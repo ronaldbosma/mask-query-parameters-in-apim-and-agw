@@ -29,8 +29,8 @@ resource echoApi 'Microsoft.ApiManagement/service/apis@2024-10-01-preview' = {
   properties: {
     displayName: 'Echo API'
     path: 'echo'
-    protocols: [ 
-      'https' 
+    protocols: [
+      'https'
     ]
     subscriptionRequired: true
   }

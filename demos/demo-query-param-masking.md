@@ -8,24 +8,24 @@ The following resources will be deployed:
 
 ![Deployed Resources](/images/deployed-resources.png)
 
-
 ## 2. What can I demo from this scenario after deployment
 
 ### Send test requests
 
-You can send requests directly to API Management and through the Application Gateway. 
+You can send requests directly to API Management and through the Application Gateway.
 The requests will be logged in the Log Analytics Workspace.
 The [tests.http](/tests/tests.http) file contains a set of HTTP requests that you can use for this purpose.
 
 Follow these steps to send the requests using Visual Studio Code:
 
-1. Install the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension in Visual Studio Code. 
+1. Install the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension in Visual Studio Code.
 
-1. The API is protected and needs to be called with a subscription key. 
+1. The API is protected and needs to be called with a subscription key.
    Locate the `Built-in all-access` subscription in API Management and copy the primary key.
 
-1. Add an environment to your Visual Studio Code user settings with the Application Gateway public IP address, API Management hostname and subscription key. 
+1. Add an environment to your Visual Studio Code user settings with the Application Gateway public IP address, API Management hostname and subscription key.
    Use the following example and replace the values with your own:
+
    ```
    "rest-client.environmentVariables": {
        "maskqueryparam": {
@@ -57,13 +57,12 @@ AzureDiagnostics
 | project TimeGenerated, originalRequestUriWithArgs_s
 ```
 
-If you encounter the error below, it means that no logs have been generated yet. 
+If you encounter the error below, it means that no logs have been generated yet.
 The `originalRequestUriWithArgs_s` column will only appear after the first request has been logged.
 
 ```
 'project' operator: Failed to resolve scalar expression named 'originalRequestUriWithArgs_s'
 ```
-
 
 #### Application Gateway - Firewall Log
 
@@ -82,7 +81,7 @@ AzureDiagnostics
 You can use the following query to see the requests that were sent to the API Management service.
 
 ```kusto
-AppRequests 
+AppRequests
 | where Properties["Service Type"] == "API Management"
 | extend Subscription = tostring(Properties["Subscription Name"])
 | project TimeGenerated, Subscription, Url
@@ -91,7 +90,7 @@ AppRequests
 #### API Management - Gateway Log
 
 You can use the following query to see the requests that were logged in the API Management Gateway Log.
-Note that no results will be returned if you deployed a Consumption tier API Management instance, as this tier doesn't support logging to the API Management Gateway Log. 
+Note that no results will be returned if you deployed a Consumption tier API Management instance, as this tier doesn't support logging to the API Management Gateway Log.
 See the [README](/README.md) for more information.
 
 ```kusto

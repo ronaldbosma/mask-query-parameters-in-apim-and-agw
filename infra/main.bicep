@@ -10,7 +10,12 @@ targetScope = 'subscription'
 //=============================================================================
 
 import { getResourceName, generateInstanceId } from './functions/naming-conventions.bicep'
-import { apiManagementSettingsType, appInsightsSettingsType, applicationGatewaySettingsType, virtualNetworkSettingsType } from './types/settings.bicep'
+import {
+  apiManagementSettingsType
+  appInsightsSettingsType
+  applicationGatewaySettingsType
+  virtualNetworkSettingsType
+} from './types/settings.bicep'
 
 //=============================================================================
 // Parameters
@@ -140,7 +145,6 @@ module assignRolesToDeployer 'modules/shared/assign-roles-to-principal.bicep' = 
   ]
 }
 
-
 //=============================================================================
 // Application Resources
 //=============================================================================
@@ -154,7 +158,6 @@ module echoApi 'modules/application/echo-api.bicep' = {
     apiManagement
   ]
 }
-
 
 //=============================================================================
 // Outputs
