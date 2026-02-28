@@ -1,6 +1,7 @@
-﻿using IntegrationTests.Clients;
-using IntegrationTests.Configuration;
 using System.Net;
+
+using IntegrationTests.Clients;
+using IntegrationTests.Configuration;
 
 namespace IntegrationTests;
 

@@ -1,4 +1,4 @@
-﻿using IntegrationTests.Clients.Handlers;
+using IntegrationTests.Clients.Handlers;
 
 namespace IntegrationTests.Clients
 {
@@ -8,9 +8,9 @@ namespace IntegrationTests.Clients
     /// </summary>
     internal class IntegrationTestHttpClient : HttpClient
     {
-        public IntegrationTestHttpClient(string baseAddress) 
-            : this (new Uri(baseAddress)) 
-        { 
+        public IntegrationTestHttpClient(string baseAddress)
+            : this(new Uri(baseAddress))
+        {
         }
 
         public IntegrationTestHttpClient(Uri baseAddress)

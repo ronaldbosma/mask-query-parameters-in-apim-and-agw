@@ -59,7 +59,6 @@ resource agwPublicIPAddress 'Microsoft.Network/publicIPAddresses@2024-10-01' = {
   }
 }
 
-
 // Web Application Firewall (WAF) Policy
 
 resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies@2024-10-01' = {
@@ -83,7 +82,7 @@ resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPo
           {
             matchVariable: 'RequestArgNames'
             selectorMatchOperator: 'Equals'
-            selector: 'subscription-key'      // Use * the mask all query parameters
+            selector: 'subscription-key' // Use * the mask all query parameters
             state: 'Enabled'
           }
         ]
@@ -163,15 +162,22 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-10-01' =
           protocol: 'Http'
           // requireServerNameIndication: false
           frontendIPConfiguration: {
-            id: resourceId('Microsoft.Network/applicationGateways/frontendIPConfigurations', applicationGatewaySettings.applicationGatewayName, 'agw-public-frontend-ip')
+            id: resourceId(
+              'Microsoft.Network/applicationGateways/frontendIPConfigurations',
+              applicationGatewaySettings.applicationGatewayName,
+              'agw-public-frontend-ip'
+            )
           }
           frontendPort: {
-            id: resourceId('Microsoft.Network/applicationGateways/frontendPorts', applicationGatewaySettings.applicationGatewayName, 'port-http')
+            id: resourceId(
+              'Microsoft.Network/applicationGateways/frontendPorts',
+              applicationGatewaySettings.applicationGatewayName,
+              'port-http'
+            )
           }
         }
       }
     ]
-
 
     // Backend
 
@@ -206,7 +212,7 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-10-01' =
         }
       }
     ]
-    
+
     backendHttpSettingsCollection: [
       {
         name: 'apim-gateway-backend-settings'
@@ -217,12 +223,15 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-10-01' =
           hostName: '${apiManagementServiceName}.azure-api.net'
           requestTimeout: 20
           probe: {
-            id: resourceId('Microsoft.Network/applicationGateways/probes', applicationGatewaySettings.applicationGatewayName, 'apim-gateway-probe')
+            id: resourceId(
+              'Microsoft.Network/applicationGateways/probes',
+              applicationGatewaySettings.applicationGatewayName,
+              'apim-gateway-probe'
+            )
           }
         }
       }
     ]
-
 
     // Rules
 
@@ -233,20 +242,31 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-10-01' =
           priority: 10
           ruleType: 'Basic'
           httpListener: {
-            id: resourceId('Microsoft.Network/applicationGateways/httpListeners', applicationGatewaySettings.applicationGatewayName, 'http-listener')
+            id: resourceId(
+              'Microsoft.Network/applicationGateways/httpListeners',
+              applicationGatewaySettings.applicationGatewayName,
+              'http-listener'
+            )
           }
           backendAddressPool: {
-            id: resourceId('Microsoft.Network/applicationGateways/backendAddressPools', applicationGatewaySettings.applicationGatewayName, 'apim-gateway-backend-pool')
+            id: resourceId(
+              'Microsoft.Network/applicationGateways/backendAddressPools',
+              applicationGatewaySettings.applicationGatewayName,
+              'apim-gateway-backend-pool'
+            )
           }
           backendHttpSettings: {
-            id: resourceId('Microsoft.Network/applicationGateways/backendHttpSettingsCollection', applicationGatewaySettings.applicationGatewayName, 'apim-gateway-backend-settings')
+            id: resourceId(
+              'Microsoft.Network/applicationGateways/backendHttpSettingsCollection',
+              applicationGatewaySettings.applicationGatewayName,
+              'apim-gateway-backend-settings'
+            )
           }
         }
       }
     ]
   }
 }
-
 
 // Diagnostic settings for Application Gateway
 
@@ -263,7 +283,6 @@ resource applicationGatewayDiagnosticSettings 'Microsoft.Insights/diagnosticSett
     ]
   }
 }
-
 
 //=============================================================================
 // Outputs
