@@ -73,7 +73,7 @@ resource wafPolicy 'Microsoft.Network/ApplicationGatewayWebApplicationFirewallPo
       state: 'Enabled'
       mode: 'Detection'
 
-      // The log scrubbing feature is only supported on Web Application Firewalls running the latest WAF engine. 
+      // The log scrubbing feature is only supported on Web Application Firewalls running the latest WAF engine.
       // Select OWASP CRS 3.2 or Default Rule Set 2.1 as the managed rule set.
       // See: https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/waf-sensitive-data-protection-configure?tabs=browser
       logScrubbing: {
@@ -270,6 +270,7 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-10-01' =
 
 // Diagnostic settings for Application Gateway
 
+#disable-next-line use-recent-api-versions // There isn't a newer version at the moment
 resource applicationGatewayDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: '${applicationGatewaySettings.applicationGatewayName}-diagnostics'
   scope: applicationGateway

@@ -180,6 +180,7 @@ resource apimInsightsDiagnostics 'Microsoft.ApiManagement/service/diagnostics@20
 // Diagnostics settings for API Management
 // Thse can be deployed for a Conspumption tier, but don't actualy do anything for this tier
 
+#disable-next-line use-recent-api-versions // There isn't a newer version at the moment
 resource apimDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: '${apiManagementSettings.serviceName}-diag'
   scope: apiManagementService
