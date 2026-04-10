@@ -160,7 +160,6 @@ resource applicationGateway 'Microsoft.Network/applicationGateways@2024-10-01' =
         name: 'http-listener'
         properties: {
           protocol: 'Http'
-          // requireServerNameIndication: false
           frontendIPConfiguration: {
             id: resourceId(
               'Microsoft.Network/applicationGateways/frontendIPConfigurations',
