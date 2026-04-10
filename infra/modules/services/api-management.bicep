@@ -82,7 +82,7 @@ resource masterSubscription 'Microsoft.ApiManagement/service/subscriptions@2025-
 // Resources
 //=============================================================================
 
-// API Management - Consumption tier (see also: https://learn.microsoft.com/en-us/azure/api-management/quickstart-bicep?tabs=CLI)
+// API Management
 
 resource apiManagementService 'Microsoft.ApiManagement/service@2025-03-01-preview' = {
   name: apiManagementSettings.serviceName
