@@ -16,6 +16,7 @@ import {
   applicationGatewaySettingsType
   virtualNetworkSettingsType
 } from './types/settings.bicep'
+import { tagsType } from './types/shared-types.bicep'
 
 //=============================================================================
 // Parameters
@@ -63,7 +64,7 @@ var virtualNetworkSettings virtualNetworkSettingsType = {
   applicationGatewaySubnetName: getResourceName('subnet', environmentName, location, 'agw-${instanceId}')
 }
 
-var tags { *: string } = {
+var tags tagsType = {
   'azd-env-name': environmentName
   'azd-template': 'ronaldbosma/mask-query-parameters-in-apim-and-agw'
 }
