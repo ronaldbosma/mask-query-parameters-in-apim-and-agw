@@ -2,6 +2,6 @@
 
 name: mask-query-parameters-in-apim-and-agw
 metadata:
-  template: mask-query-parameters-in-apim-and-agw@1.0.2
+  template: mask-query-parameters-in-apim-and-agw@1.0.3
 requiredVersions:
   azd: ">= 1.28.1" # azd version 1.28.1 or higher is required because we're using features from Bicep v0.45.6.
