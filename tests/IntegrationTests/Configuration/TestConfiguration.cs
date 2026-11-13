@@ -7,11 +7,7 @@ namespace IntegrationTests.Configuration;
 /// </summary>
 internal class TestConfiguration
 {
-    public required Uri AzureApiManagementGatewayUrl { get; init; }
-    public required Uri AzureApplicationGatewayUrl { get; init; }
-    public required Uri AzureKeyVaultUri { get; init; }
-
-    public static TestConfiguration Load()
+    private static readonly Lazy<TestConfiguration> Instance = new(() =>
     {
         AzdDotEnv.Load(optional: true); // Loads Azure Developer CLI environment variables; optional since .env file might be missing in CI/CD pipelines
 
@@ -25,5 +21,11 @@ internal class TestConfiguration
             AzureApplicationGatewayUrl = new Uri($"http://{configuration.GetRequiredString("AZURE_APPLICATION_GATEWAY_PUBLIC_IP_ADDRESS")}"),
             AzureKeyVaultUri = configuration.GetRequiredUri("AZURE_KEY_VAULT_URI")
         };
-    }
+    });
+
+    public required Uri AzureApiManagementGatewayUrl { get; init; }
+    public required Uri AzureApplicationGatewayUrl { get; init; }
+    public required Uri AzureKeyVaultUri { get; init; }
+
+    public static TestConfiguration Load() => Instance.Value;
 }
